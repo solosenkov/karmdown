@@ -7,7 +7,8 @@ const path=require('node:path');
 (async()=>{
  const profile=await fs.mkdtemp(path.join(os.tmpdir(),'karmdown-qa-'));
  const root=path.resolve(__dirname,'..');
- const options={channel:'chromium',headless:!process.env.KARMDOWN_HEADED,args:[`--disable-extensions-except=${root}`,`--load-extension=${root}`]};
+ const extensionRoot=process.env.KARMDOWN_EXTENSION_ROOT || root;
+ const options={channel:'chromium',headless:!process.env.KARMDOWN_HEADED,args:[`--disable-extensions-except=${extensionRoot}`,`--load-extension=${extensionRoot}`]};
  if(process.env.KARMDOWN_CHROMIUM) options.executablePath=process.env.KARMDOWN_CHROMIUM;
  const context=await chromium.launchPersistentContext(profile,options);
  const http=require('node:http');

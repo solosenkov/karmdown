@@ -2,7 +2,7 @@
 
 Use Node.js 22+ and Python 3. Install dependencies with `npm ci --ignore-scripts`.
 
-Run `npm run check`, `npm audit`, and `npm run build` before submitting a change. Run `npm run verify:browser` with an installed Playwright Chromium (`npx playwright-core install chromium`); set `KARMDOWN_CHROMIUM` when using a custom Chrome for Testing executable. Tests use a fresh temporary profile and public synthetic fixtures.
+Run `npm run check`, `npm audit`, and `npm run build` before submitting a change. Run `npm run verify:browser` with an installed Playwright Chromium (`npx playwright-core install chromium`); set `KARMDOWN_CHROMIUM` when using a custom Chrome for Testing executable. Set `KARMDOWN_EXTENSION_ROOT` to verify an extracted runtime ZIP instead of the source tree. CI does this before uploading the artifact. Tests use a fresh temporary profile and public synthetic fixtures.
 
 Keep English and Russian UI keys in sync, preserve English defaults, and add behavioral regression tests. Avoid broad host access, remote scripts, telemetry, unsafe HTML sinks and document uploads.
 

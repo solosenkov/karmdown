@@ -18,8 +18,14 @@ jobs:
       - run: npm run check
       - run: npm audit --audit-level=low
       - run: npx playwright-core install --with-deps chromium
-      - run: npm run verify:browser
       - run: npm run build
+      - name: Verify packaged extension
+        env:
+          KARMDOWN_EXTENSION_ROOT: ${{ runner.temp }}/karmdown-package
+        run: |
+          mkdir -p "$KARMDOWN_EXTENSION_ROOT"
+          unzip -q dist/*-chrome.zip -d "$KARMDOWN_EXTENSION_ROOT"
+          npm run verify:browser
       - uses: actions/upload-artifact@v4
         with:
           name: karmdown-chrome
