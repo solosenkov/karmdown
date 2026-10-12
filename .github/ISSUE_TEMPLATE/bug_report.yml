@@ -1,0 +1,27 @@
+name: Bug report
+description: Report a reproducible KarmDown problem
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not attach private documents, credentials or personal file paths. Report security issues privately through the Security tab."
+  - type: input
+    id: version
+    attributes:
+      label: Extension and Chrome versions
+      placeholder: KarmDown 1.3.0, Chrome version, operating system
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include a small synthetic Markdown example if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

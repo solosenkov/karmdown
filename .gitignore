@@ -1,0 +1,13 @@
+docs/
+.DS_Store
+node_modules/
+dist/
+artifacts/
+*.zip
+.env
+.env.*
+*.pem
+*.key
+output/
+.playwright-cli/
+.playwright/

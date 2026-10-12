@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --ink: #141414; --paper: #fff; --canvas: #f5f5f5; --mist: #e9e9e9;
+    --hair: #d9d9d9; --green: #30a81d; --yellow: #fecc33;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  body { width: 300px; margin: 0; font: 14px/1.5 Arial, Inter, system-ui, sans-serif; background: var(--canvas); color: var(--ink);
+    background-image: linear-gradient(var(--hair) 1px, transparent 1px), linear-gradient(90deg, var(--hair) 1px, transparent 1px);
+    background-size: 28px 28px; }
+  .wrap { padding: 14px; }
+  .card { background: var(--paper); border: 1px solid var(--hair); border-radius: 16px; padding: 14px; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .logo { width: 30px; height: 30px; border-radius: 8px; background: var(--ink); color: #fff; display: grid; place-items: center;
+    font-family: var(--mono); font-weight: 700; font-size: 15px; position: relative; flex: none; }
+  .logo::after { content: ""; position: absolute; right: 5px; bottom: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: 16px; margin: 0; letter-spacing: -0.01em; }
+  h1 span { background-image: linear-gradient(transparent 58%, var(--yellow) 58%); }
+  p.sub { color: #6b6b6b; margin: 2px 0 10px; font-size: 12px; }
+  label { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 0; border-top: 1px solid var(--hair); }
+  label .t { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  select { font-family: var(--mono); font-size: 12px; background: var(--canvas); color: var(--ink); border: 1px solid var(--hair); border-radius: 8px; padding: 5px 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  select:focus { outline: 1px solid var(--green); }
+  .warn { background: var(--yellow); border: 1px solid var(--hair); color: var(--ink); border-radius: 8px; padding: 8px 10px; font-size: 12px; margin-top: 10px; }
+  .warn b { display: block; margin-bottom: 2px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  code { font-size: 11px; font-family: var(--mono); background: var(--mist); padding: 1px 5px; border-radius: 4px; }
+  .row { display: flex; gap: 8px; margin-top: 10px; }
+  button.action { flex: 1; border-radius: 8px; border: none; background: var(--ink); color: #fff; padding: 9px; cursor: pointer;
+    font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .switch { position: relative; width: 38px; height: 22px; background: var(--mist); border: 1px solid var(--hair); border-radius: 160px; cursor: pointer; padding: 0; flex: none; }
+  .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 1px solid var(--hair); transition: left .2s; }
+  .switch.on { background: var(--green); border-color: var(--green); }
+  .switch.on::after { left: 18px; border-color: var(--green); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand"><img src="icons/icon32.png" width="30" height="30" alt=""><h1><span>KarmDown</span></h1></div>
+    <p class="sub" data-i18n="sub">Local Markdown viewer and editor.</p>
+    <label><span class="t" data-i18n="enabled">Enabled</span><button role="switch" aria-checked="true" class="switch on" id="enabled"></button></label>
+    <label><span class="t" data-i18n="theme">Theme</span>
+      <select id="theme">
+        <option value="auto" data-i18n="auto">Auto</option>
+        <option value="light" data-i18n="light">Light</option>
+        <option value="dark" data-i18n="dark">Dark</option>
+      </select>
+    </label>
+    <label><span class="t" data-i18n="toc">Contents</span><button role="switch" aria-checked="true" class="switch on" id="toc"></button></label>
+    <label><span class="t" data-i18n="mode">Mode</span>
+      <select id="mode">
+        <option value="preview" data-i18n="preview">Preview</option>
+        <option value="split" data-i18n="split">Split</option>
+        <option value="edit" data-i18n="edit">Editor</option>
+        <option value="raw" data-i18n="raw">Raw</option>
+      </select>
+    </label>
+    <label><span class="t" data-i18n="width">Width</span>
+      <select id="width">
+        <option value="narrow" data-i18n="narrow">Narrow</option>
+        <option value="normal" data-i18n="normal">Normal</option>
+        <option value="wide" data-i18n="wide">Wide</option>
+        <option value="full" data-i18n="full">Full width</option>
+      </select>
+    </label>
+    <label><span class="t" data-i18n="font">Font</span>
+      <select id="font">
+        <option value="s" data-i18n="fontS">Small</option>
+        <option value="m" data-i18n="fontM">Medium</option>
+        <option value="l" data-i18n="fontL">Large</option>
+      </select>
+    </label>
+    <label><span class="t" data-i18n="lang">Language</span>
+      <select id="lang">
+        <option value="auto" data-i18n="auto">Auto</option>
+        <option value="ru">RU</option>
+        <option value="en">EN</option>
+      </select>
+    </label>
+    <label><span class="t" data-i18n="autoReload">Live reload</span><button role="switch" aria-checked="true" class="switch on" id="autoReload"></button></label>
+    <label><span class="t" data-i18n="remoteImages">Remote images</span><button role="switch" aria-checked="false" class="switch" id="remoteImages"></button></label>
+    <p class="sub" data-i18n="remoteHint">Remote images contact the image host. Off by default.</p>
+    <div class="row"><button class="action" id="openViewer" data-i18n="openViewer">Open Markdown file</button></div>
+    <div class="warn"><b data-i18n="warnT">Required for file://</b><span data-i18n="warnB">Open chrome://extensions → KarmDown → Details → enable “Allow access to file URLs”.</span></div>
+    <div class="row"><button class="action" id="reload" data-i18n="reload">Reload tab</button></div>
+    <div class="row"><button class="action" id="clearData" data-i18n="clearData">Clear local drafts</button></div>
+    <p class="sub" id="feedback" role="status"></p>
+  </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
