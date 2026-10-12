@@ -75,3 +75,5 @@ No user data is collected by or transmitted to the developer. Declare this consi
 5. Upload the ZIP to the developer dashboard, attach the screenshots and tile, complete declarations, and submit when satisfied.
 
 Browser automation verifies the extension in Chromium. It does not guarantee acceptance by Google or replace the owner's final test in their Chrome profile.
+
+Mermaid configuration directives, HTML labels and image shapes are displayed as source rather than executed, to prevent document-controlled network requests and configuration overrides. Ordinary diagrams and KaTeX math remain supported.

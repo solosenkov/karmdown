@@ -61,3 +61,14 @@ console.log("Hello, KarmDown!");
 ## One more thought
 
 Markdown is portable. Your documents belong to you.
+
+## Remote resource abuse checks
+
+<svg><image href="https://example.com/svg-tracker.png" /></svg>
+<input type="image" src="https://example.com/input-tracker.png">
+<table background="https://example.com/table-tracker.png"><tr><td>Background probe</td></tr></table>
+
+```mermaid
+flowchart LR
+    A@{ img: "https://example.com/diagram-tracker.png", label: "image probe", h: 60 }
+```

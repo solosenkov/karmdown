@@ -5,11 +5,11 @@ Keep your Markdown source beside the document. Diagrams and formulas appear as y
 ## A clear path forward
 
 ```mermaid
-flowchart TD
-    A[Open Markdown] --> B[Read & edit]
-    B --> C{Ready to share?}
-    C --> D[Export HTML]
-    C --> E[Print or PDF]
+flowchart LR
+    A[Markdown] --> B[Preview]
+    B --> C{Share?}
+    C --> D[HTML]
+    C --> E[PDF]
 ```
 
 ## A small equation

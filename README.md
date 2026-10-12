@@ -21,6 +21,8 @@
 - **Your reading space:** light/dark/system themes, reading width, font size, document outline and instant settings updates.
 - **English by default**, with a Russian interface available in the popup.
 
+Mermaid configuration directives, HTML labels and image shapes are displayed as source rather than executed, to prevent document-controlled network requests and configuration overrides. Ordinary diagrams and KaTeX math remain supported.
+
 All rendering libraries are bundled locally. No CDN, telemetry, account or subscription. Remote document images are blocked by default.
 
 ![Dark split editor and Mermaid diagram](store-assets/02-dark-split.png)

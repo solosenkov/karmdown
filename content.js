@@ -8,6 +8,7 @@
 
   const STR = {
     ru: {
+      "diagramRestricted": "HTML, изображения и настройки внутри диаграмм отключены для безопасности. Ниже показан исходник.",
       "views": "Режимы просмотра",
       "openFail": "Не удалось открыть файл.",
       "search": "Поиск",
@@ -45,6 +46,7 @@
       tocTitle: "Оглавление",
     },
     en: {
+      "diagramRestricted": "Diagram HTML, image shapes and configuration directives are disabled for safety. The source is shown below.",
       "views": "Viewing modes",
       "openFail": "Unable to open this file.",
       "search": "Find",
@@ -142,6 +144,7 @@
     catch { cfg = { ...DEFAULTS }; }
     if (!cfg.enabled && !globalThis.__kdStandalone) return;
 
+    if (window.__mvActive || document.getElementById("mv-root")) return;
     const raw0 = getRaw();
     window.__mvActive = true;
 
@@ -369,7 +372,15 @@
     }
 
     async function renderMermaid(version) {
-      const blocks = [...doc.querySelectorAll("pre code.language-mermaid")];
+      const blocks = [...doc.querySelectorAll("pre code.language-mermaid")].filter(code => {
+        // Diagram configuration and HTML/image shapes can create requests before
+        // the generated SVG exists. Preserve the source instead of rendering them.
+        if (/%%\s*\{|^\s*---\r?\n|\bimg\s*:|<\s*[a-z][^>]*>/i.test(code.textContent)) {
+          const warning = document.createElement("div"); warning.className = "mv-image-blocked"; warning.textContent = T.diagramRestricted;
+          code.closest("pre").before(warning); return false;
+        }
+        return true;
+      });
       hasMermaid = blocks.length > 0;
       if (!hasMermaid) return;
       try { await loadScriptOnce("mermaid", "vendor/mermaid.min.js"); } catch { return; }
@@ -415,7 +426,7 @@
       let html;
       try { html = marked.parse(protectMath(metadata.body), { gfm: true, breaks: false }); }
       catch { doc.textContent = T.renderFail; return; }
-      const safeHTML = DOMPurify.sanitize(html, { FORBID_TAGS: ["style", "iframe", "object", "embed", "form", "video", "audio", "source", "picture"], FORBID_ATTR: ["style", "srcset"], ADD_ATTR: ["target", "rel"] });
+      const safeHTML = DOMPurify.sanitize(html, { FORBID_TAGS: ["style", "iframe", "object", "embed", "form", "video", "audio", "source", "picture", "svg", "math", "image", "use"], FORBID_ATTR: ["style", "srcset", "background", "poster", "ping", "action", "formaction"], ADD_ATTR: ["target", "rel"] });
       // Reparse sanitized markup in an inert template. Returning DOM nodes from an
       // isolated world can retain page-world inline event handlers in Chromium.
       const template = document.createElement("template"); template.innerHTML = safeHTML;
@@ -432,6 +443,10 @@
           if (local || remote || data) { image.src = url.href; image.referrerPolicy = "no-referrer"; }
           else { const text = document.createElement("span"); text.className = "mv-image-blocked"; text.textContent = T.imageBlocked + (image.alt ? ": " + image.alt : ""); image.replaceWith(text); }
         } catch { image.remove(); }
+      });
+      fragment.querySelectorAll("input").forEach(input => {
+        if (input.type !== "checkbox") input.remove();
+        else { input.disabled = true; input.removeAttribute("src"); }
       });
       doc.replaceChildren(fragment);
       if (metadata.entries.length) {
